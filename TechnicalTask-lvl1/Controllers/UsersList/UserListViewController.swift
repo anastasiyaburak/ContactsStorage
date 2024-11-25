@@ -3,9 +3,9 @@ import SnapKit
 
 class UserListViewController: UIViewController {
 
-    let viewModel: UserListViewModel
+    private let viewModel: UserListViewModel
 
-    private lazy var addBarItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+    private lazy var addBarItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonWasPressed))
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -48,6 +48,12 @@ class UserListViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
     }
+
+    @objc private func addButtonWasPressed() {
+        let controller = AddUserViewController()
+        controller.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
@@ -67,5 +73,17 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             return UITableViewCell()
         }
+    }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let action = UIContextualAction(style: .normal,
+                                        title: nil) { [weak self] (_, _, _) in
+            print("delete")
+        }
+        action.image = Asset.Images.bin.image
+        action.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }
