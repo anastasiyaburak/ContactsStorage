@@ -1,0 +1,7 @@
+xcassets:
+  inputs:
+    - TechnicalTask-lvl1/Resources/Images.xcassets
+    - TechnicalTask-lvl1/Resources/Colors.xcassets
+  outputs:
+    - templateName: swift5
+      output: TechnicalTask-lvl1/SwiftGen/Assets.swift
