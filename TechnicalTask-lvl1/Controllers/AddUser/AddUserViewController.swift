@@ -44,10 +44,9 @@ class AddUserViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 25
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
+        button.backgroundColor = .black
         button.setTitle("Save", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.addTarget(self, action: #selector(saveButtonWasPressed), for: .touchUpInside)
 
