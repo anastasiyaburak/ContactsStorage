@@ -4,8 +4,8 @@ typealias Users = [UserModel]
 
 // MARK: - UserModel
 struct UserModel: Codable {
-    let id: Int
-    let username, email: String
+    let username: String
+    let email: String
     let address: Address
 }
 

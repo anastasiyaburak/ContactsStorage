@@ -18,7 +18,7 @@ class InputView: UIView {
     override public var isFirstResponder: Bool { textField.isFirstResponder }
     override public var isFocused: Bool { textField.isFocused }
     var text: String? { textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) }
-    var hasText: Bool { textField.text?.isEmpty ?? false }
+    var hasText: Bool { !(textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true) }
     private(set) var style: InputViewStyle!
     weak var delegate: InputViewDelegate?
     var state: InputViewState = .waiting

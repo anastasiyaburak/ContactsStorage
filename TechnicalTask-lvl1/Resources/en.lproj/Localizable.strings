@@ -1,0 +1,14 @@
+"AddUser.Title" = "Add User";
+"AddUser.ProvideInfo" = "Provide all info to save user:";
+"AddUser.Email" = "User Email:";
+"AddUser.Username" = "Username:";
+"AddUser.City" = "City:";
+"AddUser.Street" = "Street:";
+
+"Placeholder.Username" = "Username";
+"Placeholder.Email" = "Email";
+"Placeholder.City" = "City";
+"Placeholder.Street" = "Street";
+
+"Button.Save" = "Save";
+"UserList.Title" = "User List";
