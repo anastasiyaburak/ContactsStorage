@@ -22,13 +22,13 @@ enum InputViewStyle {
     var labelText: String {
         switch self {
         case .email:
-            return "User Email:"
+            return Localization.AddUser.email
         case .username:
-            return "User Name:"
+            return Localization.AddUser.username
         case .city:
-            return "City:"
+            return Localization.AddUser.city
         case .street:
-            return "Street:"
+            return Localization.AddUser.street
         }
     }
 }

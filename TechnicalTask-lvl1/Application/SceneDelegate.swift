@@ -13,7 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationBarAppearance.backgroundColor = .white
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
 
-        let userViewModel = UserListViewModel()
+        let dataManager = UserDataManager()
+        let userViewModel = UserListViewModel(userDataManager: dataManager)
         let userListViewController = UserListViewController(viewModel: userViewModel)
         window?.rootViewController = UINavigationController(rootViewController: userListViewController)
         window?.makeKeyAndVisible()

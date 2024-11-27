@@ -1,11 +1,15 @@
 import UIKit
 import SnapKit
+import Combine
 
 class UserListViewController: UIViewController {
 
     private let viewModel: UserListViewModel
+    private var cancellable = Set<AnyCancellable>()
 
-    private lazy var addBarItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonWasPressed))
+    private lazy var addBarItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                  target: self,
+                                                  action: #selector(addButtonWasPressed))
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -17,6 +21,12 @@ class UserListViewController: UIViewController {
         tableView.dataSource = self
         tableView.allowsSelection = false
         return tableView
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return refreshControl
     }()
 
     init(viewModel: UserListViewModel) {
@@ -32,16 +42,27 @@ class UserListViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
+
+        viewModel.$data
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
+            }
+            .store(in: &cancellable)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        refreshData()
     }
 
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.sizeToFit()
-        navigationItem.title = "User List"
+        navigationItem.title = Localization.UserList.title
         navigationItem.rightBarButtonItem = addBarItem
 
         view.addSubview(tableView)
+        tableView.addSubview(refreshControl)
 
         tableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -50,40 +71,53 @@ class UserListViewController: UIViewController {
     }
 
     @objc private func addButtonWasPressed() {
-        let controller = AddUserViewController()
+        let dataManager = UserDataManager()
+        let viewModel = AddUserViewModel(userDataManager: dataManager)
+        let controller = AddUserViewController(viewModel: viewModel)
         controller.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(controller, animated: true)
+    }
+
+    @objc private func refreshData() {
+        viewModel.fetchUsers()
     }
 }
 
 extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
+        return 100
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.data.count
+        return viewModel.data.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell: UserCell = tableView.dequeueReusableCell(for: indexPath) {
-            cell.setupUI(for: viewModel.data[indexPath.row])
-            return cell
-        } else {
+        guard let cell: UserCell = tableView.dequeueReusableCell(for: indexPath) else {
             return UITableViewCell()
         }
+
+        let user = viewModel.data[indexPath.row]
+        cell.setupUI(for: user)
+
+        return cell
     }
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let action = UIContextualAction(style: .normal,
-                                        title: nil) { [weak self] (_, _, _) in
-            print("delete")
+        let user = viewModel.data[indexPath.row]
+
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completionHandler) in
+            guard let self = self else { return }
+
+            self.viewModel.deleteUser(by: user.email)
+            completionHandler(true)
         }
-        action.image = Asset.Images.bin.image
-        action.backgroundColor = .red
-        return UISwipeActionsConfiguration(actions: [action])
+
+        deleteAction.image = Asset.Images.bin.image
+        deleteAction.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
