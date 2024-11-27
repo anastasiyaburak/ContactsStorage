@@ -3,7 +3,6 @@ import SnapKit
 import Combine
 
 class UserListViewController: UIViewController {
-
     private let viewModel: UserListViewModel
     private var cancellable = Set<AnyCancellable>()
 
@@ -29,6 +28,16 @@ class UserListViewController: UIViewController {
         return refreshControl
     }()
 
+    private var internetBanner: UILabel = {
+        let banner = UILabel()
+        banner.text = "No Internet Connection. You are in offline mode."
+        banner.backgroundColor = .red
+        banner.textColor = .white
+        banner.textAlignment = .center
+        banner.isHidden = true
+        return banner
+    }()
+
     init(viewModel: UserListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -42,18 +51,11 @@ class UserListViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
-
-        viewModel.$data
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-                self?.refreshControl.endRefreshing()
-            }
-            .store(in: &cancellable)
+        setupViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        refreshData()
+        viewModel.fetchUsersList()
     }
 
     private func setupUI() {
@@ -68,6 +70,18 @@ class UserListViewController: UIViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.bottom.left.right.equalToSuperview()
         }
+
+        view.addSubview(internetBanner)
+        internetBanner.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 40)
+    }
+
+    private func setupViewModel() {
+        viewModel.$data
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellable)
     }
 
     @objc private func addButtonWasPressed() {
@@ -79,7 +93,8 @@ class UserListViewController: UIViewController {
     }
 
     @objc private func refreshData() {
-        viewModel.fetchUsers()
+        viewModel.fetchUsersList()
+        refreshControl.endRefreshing()
     }
 }
 
@@ -106,13 +121,16 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
         let user = viewModel.data[indexPath.row]
 
         let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completionHandler) in
             guard let self = self else { return }
 
             self.viewModel.deleteUser(by: user.email)
+            tableView.performBatchUpdates {
+                self.viewModel.data.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
             completionHandler(true)
         }
 
@@ -120,4 +138,5 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         deleteAction.backgroundColor = .red
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
+
 }

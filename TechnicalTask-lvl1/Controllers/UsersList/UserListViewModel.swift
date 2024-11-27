@@ -7,22 +7,10 @@ final class UserListViewModel: ObservableObject {
     private var cancellable = Set<AnyCancellable>()
     private let userDataManager: UserDataManaging
 
+    private let networkManager = UserNetworkManager()
+
     init(userDataManager: UserDataManaging) {
         self.userDataManager = userDataManager
-        fetchUsers()
-    }
-
-    func fetchUsers() {
-        userDataManager.fetchUsers()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    print("Error fetching users: \(error)")
-                }
-            }, receiveValue: { [weak self] users in
-                self?.data = users
-            })
-            .store(in: &cancellable)
     }
 
     func deleteUser(by email: String) {
@@ -30,11 +18,28 @@ final class UserListViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error deleting user: \(error)")
+                    DebugLogger.shared.debug("Error deleting user: \(error)")
                 }
             }, receiveValue: { [weak self] in
-                self?.fetchUsers()
+                guard let self = self else { return }
+                self.data.removeAll { $0.email == email }
             })
             .store(in: &cancellable)
     }
+
+    func fetchUsersList() {
+        userDataManager.fetchUsers()
+            .map { users in
+                users.sorted { $0.username.localizedCaseInsensitiveCompare($1.username) == .orderedAscending }
+            }
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    DebugLogger.shared.debug("Error: \(error)")
+                }
+            }, receiveValue: { [weak self] users in
+                self?.data = users
+            })
+            .store(in: &cancellable)
+    }
+
 }

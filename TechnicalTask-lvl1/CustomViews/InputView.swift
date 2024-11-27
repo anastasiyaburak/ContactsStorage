@@ -10,7 +10,7 @@ class InputView: UIView {
 
     @Published var text: String?
     @Published var state: InputViewState = .waiting
-    let didBeginEditing = PassthroughSubject<UITextField, Never>()
+    let didBeginEditing = PassthroughSubject<UITextField?, Never>()
     var textChanged = PassthroughSubject<String?, Never>()
     var validationState = PassthroughSubject<Bool, Never>()
 
@@ -118,10 +118,16 @@ class InputView: UIView {
 extension InputView: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         state = .waiting
+        didBeginEditing.send(nil)
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         state = .editing
         didBeginEditing.send(textField)
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

@@ -125,10 +125,10 @@ final class AddUserViewController: UIViewController {
             .sink { [weak self] userSaved in
                 guard let self = self else { return }
                 if userSaved {
-                    print("User saved successfully!")
+                    DebugLogger.shared.debug("User saved successfully!")
                     self.navigationController?.popViewController(animated: true)
                 } else {
-                    print("Error saving user.")
+                    DebugLogger.shared.debug("Error saving user.")
                 }
             }
             .store(in: &cancellable)
@@ -138,7 +138,7 @@ final class AddUserViewController: UIViewController {
         emailInputView.validationState
             .sink { isValid in
                 if !isValid {
-                    print("Invalid email")
+                    DebugLogger.shared.debug("Invalid email")
                 }
             }
             .store(in: &cancellable)
@@ -174,7 +174,7 @@ final class AddUserViewController: UIViewController {
 
     @objc private func saveButtonWasPressed() {
         guard emailInputView.validateText() else {
-            print("Please fill all fields correctly.")
+            DebugLogger.shared.debug("Please fill all fields correctly.")
             return
         }
 

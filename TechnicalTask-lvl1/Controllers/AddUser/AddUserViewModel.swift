@@ -16,7 +16,7 @@ final class AddUserViewModel {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error saving user: \(error)")
+                    DebugLogger.shared.debug("Error saving user: \(error)")
                     self.userSaved = false
                 }
             }, receiveValue: { [weak self] in
