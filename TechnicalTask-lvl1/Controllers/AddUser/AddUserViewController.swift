@@ -3,10 +3,8 @@ import SnapKit
 import Combine
 
 final class AddUserViewController: UIViewController {
-
-    private var activeTextField: InputView?
-    private var cancellable: Set<AnyCancellable> = []
-
+    private var cancellable = Set<AnyCancellable>()
+    private weak var activeTextField: UITextField?
     private let viewModel: AddUserViewModel
 
     private lazy var provideInfoLabel: UILabel = {
@@ -20,28 +18,24 @@ final class AddUserViewController: UIViewController {
     private lazy var usernameInputView: InputView = {
         let view = InputView()
         view.configure(with: .username(placeholder: Localization.Placeholder.username))
-        view.delegate = self
         return view
     }()
 
     private lazy var emailInputView: InputView = {
         let view = InputView()
         view.configure(with: .email(placeholder: Localization.Placeholder.email))
-        view.delegate = self
         return view
     }()
 
     private lazy var cityInputView: InputView = {
         let view = InputView()
         view.configure(with: .city(placeholder: Localization.Placeholder.city))
-        view.delegate = self
         return view
     }()
 
     private lazy var streetInputView: InputView = {
         let view = InputView()
         view.configure(with: .street(placeholder: Localization.Placeholder.street))
-        view.delegate = self
         return view
     }()
 
@@ -80,6 +74,7 @@ final class AddUserViewController: UIViewController {
         setNotifications()
         initialiseHideKeyboard()
         observeViewModel()
+        bindInputs()
     }
 
     private func configureScreen() {
@@ -111,10 +106,16 @@ final class AddUserViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+    }
+
+    private func initialiseHideKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(pan)
     }
 
     private func observeViewModel() {
@@ -133,27 +134,59 @@ final class AddUserViewController: UIViewController {
             .store(in: &cancellable)
     }
 
-    @objc private func saveButtonWasPressed() {
-        if usernameInputView.hasText, emailInputView.hasText,
-           cityInputView.hasText, streetInputView.hasText,
-           emailInputView.validateText() {
-            let user = UserModel(username: usernameInputView.text ?? "",
-                                 email: emailInputView.text ?? "",
-                                 address: Address(street: streetInputView.text ?? "",
-                                                  city: cityInputView.text ?? ""))
-            viewModel.saveUser(user)
-        } else {
-            print("Please fill in all fields correctly.")
+    private func bindInputs() {
+        emailInputView.validationState
+            .sink { isValid in
+                if !isValid {
+                    print("Invalid email")
+                }
+            }
+            .store(in: &cancellable)
+
+        Publishers.CombineLatest4(
+            usernameInputView.textChanged,
+            emailInputView.textChanged,
+            cityInputView.textChanged,
+            streetInputView.textChanged
+        )
+        .sink { [weak self] username, email, city, street in
+            guard let self = self else { return }
+            self.saveButton.isEnabled = !(username?.isEmpty ?? true) &&
+            !(email?.isEmpty ?? true) &&
+            !(city?.isEmpty ?? true) &&
+            !(street?.isEmpty ?? true)
         }
+        .store(in: &cancellable)
+
+        [usernameInputView, emailInputView, cityInputView, streetInputView]
+            .forEach { inputView in
+                inputView.didBeginEditing
+                    .sink { [weak self] textField in
+                        self?.activeTextField = textField
+                    }
+                    .store(in: &cancellable)
+            }
     }
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 
-    private func initialiseHideKeyboard() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
+    @objc private func saveButtonWasPressed() {
+        guard emailInputView.validateText() else {
+            print("Please fill all fields correctly.")
+            return
+        }
+
+        let user = UserModel(
+            username: usernameInputView.text ?? "",
+            email: emailInputView.text ?? "",
+            address: Address(
+                street: streetInputView.text ?? "",
+                city: cityInputView.text ?? ""
+            )
+        )
+        viewModel.saveUser(user)
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -180,23 +213,5 @@ final class AddUserViewController: UIViewController {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.frame.origin.y = 0
         }
-    }
-}
-
-extension AddUserViewController: InputViewDelegate {
-
-    func becomeFirstResponder(_ inputView: InputView) {
-        activeTextField = inputView
-    }
-
-    func continueButtonPressed(_ inputView: InputView) {
-        if inputView == emailInputView, !inputView.validateText() {
-            print("Not valid email")
-        }
-        view.endEditing(true)
-    }
-
-    func endEditingTextField(_ inputView: InputView) {
-        activeTextField = nil
     }
 }
