@@ -15,6 +15,8 @@ internal enum Localization {
     internal static let city = Localization.tr("Localizable", "AddUser.City", fallback: "City:")
     /// User Email:
     internal static let email = Localization.tr("Localizable", "AddUser.Email", fallback: "User Email:")
+    /// Email is not valid
+    internal static let emailNotValid = Localization.tr("Localizable", "AddUser.EmailNotValid", fallback: "Email is not valid")
     /// Provide all info to save user:
     internal static let provideInfo = Localization.tr("Localizable", "AddUser.ProvideInfo", fallback: "Provide all info to save user:")
     /// Street:
@@ -39,6 +41,8 @@ internal enum Localization {
     internal static let username = Localization.tr("Localizable", "Placeholder.Username", fallback: "Username")
   }
   internal enum UserList {
+    /// No Internet Connection. You are in offline mode.
+    internal static let noInternet = Localization.tr("Localizable", "UserList.NoInternet", fallback: "No Internet Connection. You are in offline mode.")
     /// User List
     internal static let title = Localization.tr("Localizable", "UserList.Title", fallback: "User List")
   }

@@ -10,9 +10,8 @@ class InputView: UIView {
 
     @Published var text: String?
     @Published var state: InputViewState = .waiting
-    let didBeginEditing = PassthroughSubject<UITextField, Never>()
-    var textChanged = PassthroughSubject<String?, Never>()
-    var validationState = PassthroughSubject<Bool, Never>()
+    let didBeginEditing = PassthroughSubject<UITextField?, Never>()
+    let textChanged = CurrentValueSubject<String?, Never>(nil)
 
     private(set) var style: InputViewStyle!
 
@@ -108,7 +107,6 @@ class InputView: UIView {
         case .none:
             isValid = false
         }
-        validationState.send(isValid)
         state = isValid ? .waiting : .emptyFieldError
         textField.layer.borderColor = isValid ? UIColor.black.cgColor : UIColor.red.cgColor
         return isValid
@@ -118,10 +116,16 @@ class InputView: UIView {
 extension InputView: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         state = .waiting
+        didBeginEditing.send(nil)
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         state = .editing
         didBeginEditing.send(textField)
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

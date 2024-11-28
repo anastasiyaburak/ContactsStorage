@@ -20,8 +20,15 @@
 		04719F5B2CF5D7C1008217B6 /* AddUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04719F5A2CF5D7C1008217B6 /* AddUserViewModel.swift */; };
 		04DB3F522CF6233900EB459D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04DB3F502CF6233900EB459D /* Localizable.strings */; };
 		04DB3F542CF626C500EB459D /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F532CF626C500EB459D /* Localization.swift */; };
-		04FBA27D2CF46CE800101A35 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04FBA27C2CF46CE800101A35 /* SnapKit */; };
-		04FBA27F2CF46CE800101A35 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 04FBA27E2CF46CE800101A35 /* SnapKit-Dynamic */; };
+		04DB3F672CF7472400EB459D /* ApiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F632CF7472400EB459D /* ApiController.swift */; };
+		04DB3F682CF7472400EB459D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F642CF7472400EB459D /* NetworkError.swift */; };
+		04DB3F692CF7472400EB459D /* UserNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F652CF7472400EB459D /* UserNetworkManager.swift */; };
+		04DB3F6C2CF77DFC00EB459D /* DebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F6B2CF77DFC00EB459D /* DebugLogger.swift */; };
+		04DB3F6F2CF77E2D00EB459D /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 04DB3F6E2CF77E2D00EB459D /* Logging */; };
+		04DB3F712CF7A1A500EB459D /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F702CF7A1A500EB459D /* Array+Extension.swift */; };
+		04DB3F732CF862A900EB459D /* InternetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F722CF862A900EB459D /* InternetReachability.swift */; };
+		04DB3F782CF8780C00EB459D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04DB3F772CF8780C00EB459D /* SnapKit */; };
+		04DB3F7A2CF8899700EB459D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F792CF8899700EB459D /* UIViewController+Extension.swift */; };
 		04FBA2832CF4713600101A35 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA2822CF4713600101A35 /* UserCell.swift */; };
 		04FBA2862CF4716300101A35 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA2852CF4716300101A35 /* UITableView+Extension.swift */; };
 		04FBA2892CF4736C00101A35 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA2882CF4736C00101A35 /* UserModel.swift */; };
@@ -33,6 +40,19 @@
 		CE9F09192CEF646D00CFA6B5 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F09182CEF646D00CFA6B5 /* UserListViewController.swift */; };
 		CE9F09212CEF647100CFA6B5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CE9F09202CEF647100CFA6B5 /* Base */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04DB3F752CF876E900EB459D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04719F3D2CF495CF008217B6 /* AddUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +68,13 @@
 		04719F5A2CF5D7C1008217B6 /* AddUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserViewModel.swift; sourceTree = "<group>"; };
 		04DB3F512CF6233900EB459D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DB3F532CF626C500EB459D /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		04DB3F632CF7472400EB459D /* ApiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiController.swift; sourceTree = "<group>"; };
+		04DB3F642CF7472400EB459D /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		04DB3F652CF7472400EB459D /* UserNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNetworkManager.swift; sourceTree = "<group>"; };
+		04DB3F6B2CF77DFC00EB459D /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogger.swift; sourceTree = "<group>"; };
+		04DB3F702CF7A1A500EB459D /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		04DB3F722CF862A900EB459D /* InternetReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetReachability.swift; sourceTree = "<group>"; };
+		04DB3F792CF8899700EB459D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		04FBA2822CF4713600101A35 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		04FBA2852CF4716300101A35 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		04FBA2882CF4736C00101A35 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -67,8 +94,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04FBA27D2CF46CE800101A35 /* SnapKit in Frameworks */,
-				04FBA27F2CF46CE800101A35 /* SnapKit-Dynamic in Frameworks */,
+				04DB3F6F2CF77E2D00EB459D /* Logging in Frameworks */,
+				04DB3F782CF8780C00EB459D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,10 +133,30 @@
 		04719F532CF5CF70008217B6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				04DB3F662CF7472400EB459D /* Network */,
 				04719F542CF5CF7C008217B6 /* UserDataManager.swift */,
 				04719F562CF5D0D9008217B6 /* CoreDataStack.swift */,
+				04DB3F722CF862A900EB459D /* InternetReachability.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		04DB3F662CF7472400EB459D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				04DB3F632CF7472400EB459D /* ApiController.swift */,
+				04DB3F642CF7472400EB459D /* NetworkError.swift */,
+				04DB3F652CF7472400EB459D /* UserNetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		04DB3F6A2CF77DE800EB459D /* Utilits */ = {
+			isa = PBXGroup;
+			children = (
+				04DB3F6B2CF77DFC00EB459D /* DebugLogger.swift */,
+			);
+			path = Utilits;
 			sourceTree = "<group>";
 		};
 		04FBA2802CF470F900101A35 /* UsersList */ = {
@@ -135,6 +182,8 @@
 			children = (
 				04FBA2852CF4716300101A35 /* UITableView+Extension.swift */,
 				04719F442CF4A16E008217B6 /* String+Extension.swift */,
+				04DB3F702CF7A1A500EB459D /* Array+Extension.swift */,
+				04DB3F792CF8899700EB459D /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -184,6 +233,7 @@
 		CE9F09132CEF646D00CFA6B5 /* TechnicalTask-lvl1 */ = {
 			isa = PBXGroup;
 			children = (
+				04DB3F6A2CF77DE800EB459D /* Utilits */,
 				04719F462CF4AE8B008217B6 /* CustomViews */,
 				04FBA2842CF4714D00101A35 /* Extensions */,
 				04FBA28B2CF4891B00101A35 /* Controllers */,
@@ -230,6 +280,7 @@
 				CE9F090F2CEF646D00CFA6B5 /* Resources */,
 				04FBA28A2CF4887900101A35 /* ⚠️ SwiftLint */,
 				04FBA2902CF48DA000101A35 /* 🛠 SwiftGen */,
+				04DB3F752CF876E900EB459D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -237,8 +288,8 @@
 			);
 			name = "TechnicalTask-lvl1";
 			packageProductDependencies = (
-				04FBA27C2CF46CE800101A35 /* SnapKit */,
-				04FBA27E2CF46CE800101A35 /* SnapKit-Dynamic */,
+				04DB3F6E2CF77E2D00EB459D /* Logging */,
+				04DB3F772CF8780C00EB459D /* SnapKit */,
 			);
 			productName = "Technical task - lvl1";
 			productReference = CE9F09112CEF646D00CFA6B5 /* TechnicalTask-lvl1.app */;
@@ -269,7 +320,8 @@
 			);
 			mainGroup = CE9F09082CEF646D00CFA6B5;
 			packageReferences = (
-				04FBA27B2CF46CE800101A35 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				04DB3F6D2CF77E2D00EB459D /* XCRemoteSwiftPackageReference "swift-log" */,
+				04DB3F762CF8780C00EB459D /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = CE9F09122CEF646D00CFA6B5 /* Products */;
 			projectDirPath = "";
@@ -344,6 +396,7 @@
 				04FBA2832CF4713600101A35 /* UserCell.swift in Sources */,
 				04719F452CF4A16E008217B6 /* String+Extension.swift in Sources */,
 				04719F3E2CF495CF008217B6 /* AddUserViewController.swift in Sources */,
+				04DB3F6C2CF77DFC00EB459D /* DebugLogger.swift in Sources */,
 				04719F4A2CF4AEBF008217B6 /* InputViewStyle.swift in Sources */,
 				CE9F09192CEF646D00CFA6B5 /* UserListViewController.swift in Sources */,
 				04719F512CF5BFBC008217B6 /* UserModel.xcdatamodeld in Sources */,
@@ -352,13 +405,19 @@
 				04719F4E2CF4D7F2008217B6 /* TextFieldWithPadding.swift in Sources */,
 				04719F4C2CF4AEDC008217B6 /* InputViewState.swift in Sources */,
 				04FBA2862CF4716300101A35 /* UITableView+Extension.swift in Sources */,
+				04DB3F692CF7472400EB459D /* UserNetworkManager.swift in Sources */,
+				04DB3F7A2CF8899700EB459D /* UIViewController+Extension.swift in Sources */,
+				04DB3F672CF7472400EB459D /* ApiController.swift in Sources */,
+				04DB3F712CF7A1A500EB459D /* Array+Extension.swift in Sources */,
 				CE9F09152CEF646D00CFA6B5 /* AppDelegate.swift in Sources */,
 				04719F572CF5D0D9008217B6 /* CoreDataStack.swift in Sources */,
+				04DB3F682CF7472400EB459D /* NetworkError.swift in Sources */,
 				04719F482CF4AEA4008217B6 /* InputView.swift in Sources */,
 				04FBA2892CF4736C00101A35 /* UserModel.swift in Sources */,
 				04719F552CF5CF7C008217B6 /* UserDataManager.swift in Sources */,
 				04719F5B2CF5D7C1008217B6 /* AddUserViewModel.swift in Sources */,
 				CE9F09172CEF646D00CFA6B5 /* SceneDelegate.swift in Sources */,
+				04DB3F732CF862A900EB459D /* InternetReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +495,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -493,6 +553,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -511,7 +572,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AUFF2LHR2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "TechnicalTask-lvl1/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Contacts;
@@ -525,7 +586,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.innowise.Technical-task---lvl1";
+				PRODUCT_BUNDLE_IDENTIFIER = com.asta.MusicApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -545,7 +606,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AUFF2LHR2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "TechnicalTask-lvl1/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Contacts;
@@ -559,7 +620,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.innowise.Technical-task---lvl1";
+				PRODUCT_BUNDLE_IDENTIFIER = com.asta.MusicApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -595,7 +656,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		04FBA27B2CF46CE800101A35 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		04DB3F6D2CF77E2D00EB459D /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.2;
+			};
+		};
+		04DB3F762CF8780C00EB459D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -606,15 +675,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		04FBA27C2CF46CE800101A35 /* SnapKit */ = {
+		04DB3F6E2CF77E2D00EB459D /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 04FBA27B2CF46CE800101A35 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
+			package = 04DB3F6D2CF77E2D00EB459D /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
 		};
-		04FBA27E2CF46CE800101A35 /* SnapKit-Dynamic */ = {
+		04DB3F772CF8780C00EB459D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 04FBA27B2CF46CE800101A35 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
+			package = 04DB3F762CF8780C00EB459D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

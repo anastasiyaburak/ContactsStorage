@@ -5,7 +5,7 @@ import Combine
 final class AddUserViewController: UIViewController {
     private var cancellable = Set<AnyCancellable>()
     private weak var activeTextField: UITextField?
-    private let viewModel: AddUserViewModel
+    private let viewModel: AddUserViewModeling
 
     private lazy var provideInfoLabel: UILabel = {
         let label = UILabel()
@@ -59,7 +59,7 @@ final class AddUserViewController: UIViewController {
         return stackView
     }()
 
-    init(viewModel: AddUserViewModel) {
+    init(viewModel: AddUserViewModeling) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -78,7 +78,7 @@ final class AddUserViewController: UIViewController {
     }
 
     private func configureScreen() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationItem.title = Localization.AddUser.title
 
         view.addSubview(provideInfoLabel)
@@ -119,30 +119,23 @@ final class AddUserViewController: UIViewController {
     }
 
     private func observeViewModel() {
-        viewModel.$userSaved
-            .dropFirst()
-            .receive(on: DispatchQueue.main)
+        viewModel.userSaved
             .sink { [weak self] userSaved in
-                guard let self = self else { return }
                 if userSaved {
-                    print("User saved successfully!")
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    print("Error saving user.")
+                    self?.navigationController?.popViewController(animated: true)
                 }
+            }
+            .store(in: &cancellable)
+
+        viewModel.errorMessage
+            .compactMap { $0 }
+            .sink { [weak self] errorMessage in
+                self?.showErrorAlert(message: errorMessage)
             }
             .store(in: &cancellable)
     }
 
     private func bindInputs() {
-        emailInputView.validationState
-            .sink { isValid in
-                if !isValid {
-                    print("Invalid email")
-                }
-            }
-            .store(in: &cancellable)
-
         Publishers.CombineLatest4(
             usernameInputView.textChanged,
             emailInputView.textChanged,
@@ -151,10 +144,11 @@ final class AddUserViewController: UIViewController {
         )
         .sink { [weak self] username, email, city, street in
             guard let self = self else { return }
-            self.saveButton.isEnabled = !(username?.isEmpty ?? true) &&
-            !(email?.isEmpty ?? true) &&
-            !(city?.isEmpty ?? true) &&
-            !(street?.isEmpty ?? true)
+            let isEnabled = !(username?.isEmpty ?? true) &&
+                            !(email?.isEmpty ?? true) &&
+                            !(city?.isEmpty ?? true) &&
+                            !(street?.isEmpty ?? true)
+            self.updateSaveButtonAppearance(isEnabled: isEnabled)
         }
         .store(in: &cancellable)
 
@@ -168,13 +162,19 @@ final class AddUserViewController: UIViewController {
             }
     }
 
+    private func updateSaveButtonAppearance(isEnabled: Bool) {
+        saveButton.backgroundColor = isEnabled ? .black : .lightGray
+        saveButton.setTitleColor(isEnabled ? .white : .darkGray, for: .normal)
+        saveButton.isEnabled = isEnabled
+    }
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 
     @objc private func saveButtonWasPressed() {
         guard emailInputView.validateText() else {
-            print("Please fill all fields correctly.")
+            self.showErrorAlert(message: Localization.AddUser.emailNotValid)
             return
         }
 

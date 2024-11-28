@@ -10,7 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.backgroundColor = .white
+        navigationBarAppearance.backgroundColor = .systemBackground
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
 
         let dataManager = UserDataManager()
