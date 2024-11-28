@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-class UserListViewController: UIViewController {
+final class UserListViewController: UIViewController {
     private let viewModel: UserListViewModel
     private var cancellable = Set<AnyCancellable>()
 
@@ -28,13 +28,20 @@ class UserListViewController: UIViewController {
         return refreshControl
     }()
 
+    private lazy var connectionStack: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [internetBanner])
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.isHidden = true
+        return stackView
+    }()
+
     private var internetBanner: UILabel = {
         let banner = UILabel()
-        banner.text = "No Internet Connection. You are in offline mode."
+        banner.text = Localization.UserList.noInternet
         banner.backgroundColor = .red
         banner.textColor = .white
         banner.textAlignment = .center
-        banner.isHidden = true
         return banner
     }()
 
@@ -63,16 +70,20 @@ class UserListViewController: UIViewController {
         navigationItem.title = Localization.UserList.title
         navigationItem.rightBarButtonItem = addBarItem
 
+        view.addSubview(connectionStack)
+        connectionStack.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.height.equalTo(40)
+            $0.width.equalToSuperview()
+        }
+
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
 
         tableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.top.equalTo(connectionStack.snp.bottom)
             $0.bottom.left.right.equalToSuperview()
         }
-
-        view.addSubview(internetBanner)
-        internetBanner.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 40)
     }
 
     private func setupViewModel() {
@@ -80,6 +91,16 @@ class UserListViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
+            }
+            .store(in: &cancellable)
+
+        viewModel.$isConnected
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isConnected in
+                self?.connectionStack.isHidden = isConnected
+                self?.connectionStack.snp.updateConstraints {
+                    $0.height.equalTo(isConnected ? 0 : 40)
+                }
             }
             .store(in: &cancellable)
     }

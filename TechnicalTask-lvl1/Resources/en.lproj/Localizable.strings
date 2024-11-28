@@ -4,6 +4,7 @@
 "AddUser.Username" = "Username:";
 "AddUser.City" = "City:";
 "AddUser.Street" = "Street:";
+"AddUser.EmailNotValid" = "Email is not valid";
 
 "Placeholder.Username" = "Username";
 "Placeholder.Email" = "Email";
@@ -12,3 +13,4 @@
 
 "Button.Save" = "Save";
 "UserList.Title" = "User List";
+"UserList.NoInternet" = "No Internet Connection. You are in offline mode.";

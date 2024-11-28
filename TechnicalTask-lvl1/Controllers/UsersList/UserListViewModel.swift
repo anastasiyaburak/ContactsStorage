@@ -3,6 +3,7 @@ import Combine
 
 final class UserListViewModel: ObservableObject {
     @Published var data: Users = []
+    @Published var isConnected = false
 
     private var cancellable = Set<AnyCancellable>()
     private let userDataManager: UserDataManaging
@@ -11,6 +12,16 @@ final class UserListViewModel: ObservableObject {
 
     init(userDataManager: UserDataManaging) {
         self.userDataManager = userDataManager
+
+        InternetReachability.shared.isConnectedSubject
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] connected in
+                self?.isConnected = connected
+                if connected {
+                    self?.fetchUsersList()
+                }
+            }
+            .store(in: &cancellable)
     }
 
     func deleteUser(by email: String) {
@@ -23,8 +34,7 @@ final class UserListViewModel: ObservableObject {
             }, receiveValue: { [weak self] in
                 guard let self = self else { return }
                 self.data.removeAll { $0.email == email }
-            })
-            .store(in: &cancellable)
+            }).store(in: &cancellable)
     }
 
     func fetchUsersList() {
@@ -38,8 +48,6 @@ final class UserListViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] users in
                 self?.data = users
-            })
-            .store(in: &cancellable)
+            }).store(in: &cancellable)
     }
-
 }

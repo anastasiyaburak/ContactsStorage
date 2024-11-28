@@ -94,13 +94,29 @@ final class UserDataManager: UserDataManaging {
 
     func saveUser(_ user: UserModel) -> AnyPublisher<Void, Error> {
         return Future { promise in
-            let userEntity = UserEntity(context: self.context)
-            userEntity.username = user.username
-            userEntity.email = user.email
-            userEntity.street = user.address.street
-            userEntity.city = user.address.city
+            // Проверка: Существует ли пользователь с таким email
+            let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "email == %@", user.email)
 
             do {
+                let existingUsers = try self.context.fetch(fetchRequest)
+
+                if !existingUsers.isEmpty {
+                    // Если email уже существует, возвращаем ошибку
+                    let error = NSError(domain: "",
+                                        code: 409,
+                                        userInfo: [NSLocalizedDescriptionKey: "Email already exists"])
+                    promise(.failure(error))
+                    return
+                }
+
+                // Если email уникален, сохраняем пользователя
+                let userEntity = UserEntity(context: self.context)
+                userEntity.username = user.username
+                userEntity.email = user.email
+                userEntity.street = user.address.street
+                userEntity.city = user.address.city
+
                 try self.context.save()
                 promise(.success(()))
             } catch {
