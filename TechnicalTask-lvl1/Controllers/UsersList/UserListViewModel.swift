@@ -6,7 +6,7 @@ final class UserListViewModel: ObservableObject {
     @Published var isConnected = false
 
     private var cancellable = Set<AnyCancellable>()
-    private let userDataManager: UserDataManaging
+    let userDataManager: UserDataManaging
 
     private let networkManager = UserNetworkManager()
 

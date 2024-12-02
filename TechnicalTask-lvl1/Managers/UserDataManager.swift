@@ -52,19 +52,19 @@ final class UserDataManager: UserDataManaging {
             .eraseToAnyPublisher()
     }
 
-    func getUsers() -> AnyPublisher<UploadResponse<[UserModel]>, NetworkError> {
+    func getUsers() -> AnyPublisher<UploadResponse<Users>, NetworkError> {
         networkManager.response(UsersApiController.getUsers, receiveOnQueue: .main)
     }
 
     func fetchSavedUsers() throws -> Users? {
-        let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+        let fetchRequest: NSFetchRequest<UserEntityMO> = NSFetchRequest(entityName: "UserEntityMO")
         do {
             let result = try self.context.fetch(fetchRequest)
             let users = result.map { userEntity -> UserModel in
-                return UserModel(username: userEntity.username ?? "Unknown",
-                                 email: userEntity.email ?? "Unknown",
-                                 address: Address(street: userEntity.street ?? "Unknown",
-                                                  city: userEntity.city ?? "Unknown")
+                return UserModel(username: userEntity.username,
+                                 email: userEntity.email,
+                                 address: Address(street: userEntity.street,
+                                                  city: userEntity.city)
                 )
             }
             return users
@@ -74,9 +74,7 @@ final class UserDataManager: UserDataManaging {
     }
 
     func syncMissingUsers(remoteUsers: Users, savedUsers: Users) -> AnyPublisher<Void, Error> {
-        let missingUsers = remoteUsers.filter { remoteUser in
-            !savedUsers.contains(where: { $0.email == remoteUser.email })
-        }
+        let missingUsers = remoteUsers.filter { !self.isUserExists(with: $0.email) }
 
         guard !missingUsers.isEmpty else {
             return Just(())
@@ -94,29 +92,21 @@ final class UserDataManager: UserDataManaging {
 
     func saveUser(_ user: UserModel) -> AnyPublisher<Void, Error> {
         return Future { promise in
-            // Проверка: Существует ли пользователь с таким email
-            let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "email == %@", user.email)
+            if self.isUserExists(with: user.email) {
+                let error = NSError(domain: "",
+                                    code: 409,
+                                    userInfo: [NSLocalizedDescriptionKey: "Email already exists"])
+                promise(.failure(error))
+                return
+            }
+
+            let userEntity = UserEntityMO(context: self.context)
+            userEntity.username = user.username
+            userEntity.email = user.email
+            userEntity.street = user.address.street
+            userEntity.city = user.address.city
 
             do {
-                let existingUsers = try self.context.fetch(fetchRequest)
-
-                if !existingUsers.isEmpty {
-                    // Если email уже существует, возвращаем ошибку
-                    let error = NSError(domain: "",
-                                        code: 409,
-                                        userInfo: [NSLocalizedDescriptionKey: "Email already exists"])
-                    promise(.failure(error))
-                    return
-                }
-
-                // Если email уникален, сохраняем пользователя
-                let userEntity = UserEntity(context: self.context)
-                userEntity.username = user.username
-                userEntity.email = user.email
-                userEntity.street = user.address.street
-                userEntity.city = user.address.city
-
                 try self.context.save()
                 promise(.success(()))
             } catch {
@@ -129,7 +119,7 @@ final class UserDataManager: UserDataManaging {
 
     func deleteUser(by email: String) -> AnyPublisher<Void, Error> {
         return Future<Void, Error> { promise in
-            let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+            let fetchRequest: NSFetchRequest<UserEntityMO> = NSFetchRequest(entityName: "UserEntityMO")
             fetchRequest.predicate = NSPredicate(format: "email == %@", email)
 
             do {
@@ -151,4 +141,17 @@ final class UserDataManager: UserDataManaging {
         .eraseToAnyPublisher()
     }
 
+    func isUserExists(with email: String) -> Bool {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = UserEntityMO.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
+        fetchRequest.fetchLimit = 1
+
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+        } catch {
+            DebugLogger.shared.debug("Error checking user existence: \(error)")
+            return false
+        }
+    }
 }
