@@ -106,8 +106,7 @@ final class UserListViewController: UIViewController {
     }
 
     @objc private func addButtonWasPressed() {
-        let dataManager = UserDataManager()
-        let viewModel = AddUserViewModel(userDataManager: dataManager)
+        let viewModel = AddUserViewModel(userDataManager: viewModel.userDataManager)
         let controller = AddUserViewController(viewModel: viewModel)
         controller.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(controller, animated: true)
