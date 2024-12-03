@@ -19,21 +19,21 @@ extension UsersApiController: ApiController {
     var path: String {
         switch self {
         case .getUsers:
-            return "https://jsonplaceholder.typicode.com/"
+             "https://jsonplaceholder.typicode.com/"
         }
     }
 
     var query: String {
         switch self {
         case .getUsers:
-            return "users"
+             "users"
         }
     }
 
     var method: UserNetworkManager.HTTPMethod {
         switch self {
         case .getUsers:
-            return .GET
+             .GET
         }
     }
 }

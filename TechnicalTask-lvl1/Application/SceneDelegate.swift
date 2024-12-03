@@ -14,7 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
 
         let dataManager = UserDataManager()
-        let userViewModel = UserListViewModel(userDataManager: dataManager)
+        let networkManager = UserNetworkManager()
+        let userViewModel = UserListViewModel(userDataManager: dataManager, networkManager: networkManager)
         let userListViewController = UserListViewController(viewModel: userViewModel)
         window?.rootViewController = UINavigationController(rootViewController: userListViewController)
         window?.makeKeyAndVisible()

@@ -9,7 +9,7 @@ protocol UserDataManaging {
 
 final class UserDataManager: UserDataManaging {
     private var context: NSManagedObjectContext {
-        return CoreDataStack.shared.context
+         CoreDataStack.shared.context
     }
 
     private var networkManager = UserNetworkManager()

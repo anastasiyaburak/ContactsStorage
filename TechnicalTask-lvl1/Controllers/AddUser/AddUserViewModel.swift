@@ -30,7 +30,7 @@ final class AddUserViewModel: AddUserViewModeling {
         userDataManager.saveUser(user)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
+                guard let self else { return }
                 if case let .failure(error as NSError) = completion {
                     DebugLogger.shared.debug("Error saving user: \(error)")
                     self._userSaved = false

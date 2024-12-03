@@ -53,6 +53,7 @@ class UserCell: UITableViewCell {
         infoStack.snp.makeConstraints {
             $0.left.equalTo(userImage.snp.right).offset(10)
             $0.top.bottom.equalToSuperview().inset(20)
+            $0.right.equalToSuperview().inset(20)
         }
     }
 

@@ -30,6 +30,7 @@
 		04DB3F782CF8780C00EB459D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04DB3F772CF8780C00EB459D /* SnapKit */; };
 		04DB3F7A2CF8899700EB459D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F792CF8899700EB459D /* UIViewController+Extension.swift */; };
 		04DB3F7C2CF9B75100EB459D /* UserEntityMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F7B2CF9B75100EB459D /* UserEntityMO.swift */; };
+		04DB3F7E2CFF2A2600EB459D /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3F7D2CFF2A2600EB459D /* Collection+Extension.swift */; };
 		04FBA2832CF4713600101A35 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA2822CF4713600101A35 /* UserCell.swift */; };
 		04FBA2862CF4716300101A35 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA2852CF4716300101A35 /* UITableView+Extension.swift */; };
 		04FBA2892CF4736C00101A35 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA2882CF4736C00101A35 /* UserModel.swift */; };
@@ -77,6 +78,7 @@
 		04DB3F722CF862A900EB459D /* InternetReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetReachability.swift; sourceTree = "<group>"; };
 		04DB3F792CF8899700EB459D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		04DB3F7B2CF9B75100EB459D /* UserEntityMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntityMO.swift; sourceTree = "<group>"; };
+		04DB3F7D2CFF2A2600EB459D /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		04FBA2822CF4713600101A35 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		04FBA2852CF4716300101A35 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		04FBA2882CF4736C00101A35 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				04719F442CF4A16E008217B6 /* String+Extension.swift */,
 				04DB3F702CF7A1A500EB459D /* Array+Extension.swift */,
 				04DB3F792CF8899700EB459D /* UIViewController+Extension.swift */,
+				04DB3F7D2CFF2A2600EB459D /* Collection+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04DB3F542CF626C500EB459D /* Localization.swift in Sources */,
+				04DB3F7E2CFF2A2600EB459D /* Collection+Extension.swift in Sources */,
 				04FBA2832CF4713600101A35 /* UserCell.swift in Sources */,
 				04719F452CF4A16E008217B6 /* String+Extension.swift in Sources */,
 				04719F3E2CF495CF008217B6 /* AddUserViewController.swift in Sources */,

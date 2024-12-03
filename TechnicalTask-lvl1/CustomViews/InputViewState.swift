@@ -8,22 +8,22 @@ enum InputViewState {
     var borderColor: UIColor {
         switch self {
         case .emptyFieldError:
-            return .systemRed
+                .systemRed
         case .editing:
-            return .white
+                .white
         case .waiting:
-            return .lightGray
+                .lightGray
         }
     }
 
     var textColor: UIColor {
         switch self {
         case .emptyFieldError:
-            return .systemRed
+                .systemRed
         case .editing:
-            return .white
+                .white
         case .waiting:
-            return .lightGray
+                .lightGray
         }
     }
 }
@@ -32,13 +32,13 @@ extension InputViewState: Equatable {
     public static func == (lhs: InputViewState, rhs: InputViewState) -> Bool {
         switch (lhs, rhs) {
         case (.emptyFieldError, .emptyFieldError):
-            return true
+            true
         case (.waiting, .waiting):
-            return true
+            true
         case (.editing, .editing):
-            return true
+            true
         default:
-            return false
+            false
         }
     }
 }
