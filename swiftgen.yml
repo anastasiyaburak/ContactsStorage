@@ -1,0 +1,15 @@
+strings:
+  inputs: TechnicalTask-lvl1/Resources/en.lproj
+  filter: Localizable\.strings
+  outputs:
+    - templateName: structured-swift5
+      output: TechnicalTask-lvl1/SwiftGen/Localization.swift
+      params:
+        enumName: Localization
+xcassets:
+  inputs:
+    - TechnicalTask-lvl1/Resources/Images.xcassets
+    - TechnicalTask-lvl1/Resources/Colors.xcassets
+  outputs:
+    - templateName: swift5
+      output: TechnicalTask-lvl1/SwiftGen/Assets.swift
