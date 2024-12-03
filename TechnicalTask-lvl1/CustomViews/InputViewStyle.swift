@@ -9,26 +9,26 @@ enum InputViewStyle {
     var placeholder: String {
         switch self {
         case .email(let placeholder):
-            return placeholder
+            placeholder
         case .username(let placeholder):
-            return placeholder
+            placeholder
         case .city(let placeholder):
-            return placeholder
+            placeholder
         case .street(let placeholder):
-            return placeholder
+            placeholder
         }
     }
 
     var labelText: String {
         switch self {
         case .email:
-            return Localization.AddUser.email
+            Localization.AddUser.email
         case .username:
-            return Localization.AddUser.username
+            Localization.AddUser.username
         case .city:
-            return Localization.AddUser.city
+            Localization.AddUser.city
         case .street:
-            return Localization.AddUser.street
+            Localization.AddUser.street
         }
     }
 }

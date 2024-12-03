@@ -29,14 +29,14 @@ final class UserListViewController: UIViewController {
     }()
 
     private lazy var connectionStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [internetBanner])
+        let stackView = UIStackView(arrangedSubviews: [networkStatusView])
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.isHidden = true
         return stackView
     }()
 
-    private var internetBanner: UILabel = {
+    private var networkStatusView: UILabel = {
         let banner = UILabel()
         banner.text = Localization.UserList.noInternet
         banner.backgroundColor = .red
@@ -121,19 +121,20 @@ final class UserListViewController: UIViewController {
 extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+         100
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.data.count
+         viewModel.data.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: UserCell = tableView.dequeueReusableCell(for: indexPath) else {
+        guard let cell: UserCell = tableView.dequeueReusableCell(for: indexPath),
+              let user = viewModel.data[safe: indexPath.row]
+        else {
             return UITableViewCell()
         }
 
-        let user = viewModel.data[indexPath.row]
         cell.setupUI(for: user)
 
         return cell
@@ -141,10 +142,10 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let user = viewModel.data[indexPath.row]
+        guard let user = viewModel.data[safe: indexPath.row] else { return nil }
 
         let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completionHandler) in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.viewModel.deleteUser(by: user.email)
             tableView.performBatchUpdates {

@@ -143,7 +143,7 @@ final class AddUserViewController: UIViewController {
             streetInputView.textChanged
         )
         .sink { [weak self] username, email, city, street in
-            guard let self = self else { return }
+            guard let self else { return }
             let isEnabled = !(username?.isEmpty ?? true) &&
                             !(email?.isEmpty ?? true) &&
                             !(city?.isEmpty ?? true) &&

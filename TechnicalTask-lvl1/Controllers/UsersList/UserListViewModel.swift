@@ -6,12 +6,12 @@ final class UserListViewModel: ObservableObject {
     @Published var isConnected = false
 
     private var cancellable = Set<AnyCancellable>()
+    private let networkManager: APIClientProtocol
     let userDataManager: UserDataManaging
 
-    private let networkManager = UserNetworkManager()
-
-    init(userDataManager: UserDataManaging) {
+    init(userDataManager: UserDataManaging, networkManager: APIClientProtocol) {
         self.userDataManager = userDataManager
+        self.networkManager = networkManager
 
         InternetReachability.shared.isConnectedSubject
             .receive(on: DispatchQueue.main)
@@ -32,7 +32,7 @@ final class UserListViewModel: ObservableObject {
                     DebugLogger.shared.debug("Error deleting user: \(error)")
                 }
             }, receiveValue: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.data.removeAll { $0.email == email }
             }).store(in: &cancellable)
     }

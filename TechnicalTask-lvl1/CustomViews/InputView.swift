@@ -42,11 +42,11 @@ class InputView: UIView {
         returnType: UIReturnKeyType = .default
     ) {
         self.addSubviews()
-        self.applyStyle(style, startValue: startValue, placeholder: placeholder, returnType: returnType)
+        self.apply(style: style, startValue: startValue, placeholder: placeholder, returnType: returnType)
     }
 
-    private func applyStyle(
-        _ style: InputViewStyle,
+    private func apply(
+        style: InputViewStyle,
         startValue: String,
         placeholder: String?,
         returnType: UIReturnKeyType

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum NetworkError: Error, LocalizedError {
+ enum NetworkError: Error, LocalizedError {
     case invalidResponse(URLResponse?)
     case noDataReceived
     case invalidData
@@ -11,26 +11,26 @@ public enum NetworkError: Error, LocalizedError {
     case unknown(Error)
     case emptyURL
 
-    public var errorDescription: String? {
+     var errorDescription: String {
         switch self {
         case .emptyURL:
-            return "URL is empty"
+             "URL is empty"
         case .invalidResponse:
-            return "Invalid response from server)"
+             "Invalid response from server)"
         case .noDataReceived:
-            return "No data received from the server"
+             "No data received from the server"
         case .invalidData:
-            return "Invalid data received"
+             "Invalid data received"
         case .noConnection:
-            return "No internet connection"
+             "No internet connection"
         case .timeout:
-            return "Request timed out"
+             "Request timed out"
         case .unknown:
-            return "Unknown error occurred"
+             "Unknown error occurred"
         case .invalidRequest:
-            return "Something wrong with our request, we will fix it "
+             "Something wrong with our request, we will fix it "
         case .parseError:
-            return "Data was not parsed in correct way !"
+             "Data was not parsed in correct way !"
         }
     }
 }

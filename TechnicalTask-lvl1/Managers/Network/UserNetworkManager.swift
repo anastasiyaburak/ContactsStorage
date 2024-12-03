@@ -24,8 +24,10 @@ final class UserNetworkManager: APIClientProtocol {
     private func request<DataType: Codable>(_ controller: ApiController,
                                             receiveOnQueue: OperationQueue = .main
     ) -> AnyPublisher<UploadResponse<DataType>, NetworkError> {
-        guard let url = controller.url else { return
-            Fail(error: NetworkError.emptyURL).eraseToAnyPublisher() }
+        guard let url = controller.url
+        else {
+            return Fail(error: NetworkError.emptyURL).eraseToAnyPublisher()
+        }
 
         let request = createRequest(with: url, type: controller.method)
         let subject: PassthroughSubject<UploadResponse<DataType>, NetworkError> = .init()
@@ -61,13 +63,13 @@ final class UserNetworkManager: APIClientProtocol {
     private func parseError(_ error: Error) -> NetworkError {
         switch (error as NSError).code {
         case NSURLErrorNotConnectedToInternet, NSURLErrorCannotConnectToHost:
-            return .noConnection
+             .noConnection
         case NSURLErrorTimedOut:
-            return .timeout
+             .timeout
         case NSURLErrorBadURL:
-            return .invalidRequest(error)
+             .invalidRequest(error)
         default:
-            return .unknown(error)
+             .unknown(error)
         }
     }
 
